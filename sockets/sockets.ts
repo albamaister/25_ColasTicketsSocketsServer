@@ -1,4 +1,5 @@
 import { Socket } from 'socket.io';
+import socketIO from 'socket.io';
 
 // Para la configuracion y las opciones de cada una de las acciones que van a ser disparadas desde el io
 
@@ -7,3 +8,16 @@ export const desconectar = ( cliente: Socket ) => {
         console.log('Cliente desconectado');
     });
 }
+
+
+// Escuchar mensajes
+export const mensaje = ( cliente: Socket, io: socketIO.Server ) => {
+    cliente.on('mensaje', ( payload: { de: string, cuerpo: string } ) => {
+
+        console.log('Mensaje recibido', payload);
+        io.emit('mensaje-nuevo', payload);
+
+    });
+}
+
+
