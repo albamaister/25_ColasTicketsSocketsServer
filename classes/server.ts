@@ -3,6 +3,8 @@ import express from 'express';
 import { SERVER_PORT } from '../global/environment';
 import socketIO from 'socket.io';
 import http from 'http';
+import * as socket from '../sockets/sockets';
+
 
 export  default class Server {
 
@@ -43,6 +45,11 @@ export  default class Server {
         // se necesita escuchar cuando un cliente se conecta o cuando una persona se conecta a mi aplicacion mediante sockets 
         this.io.on('connection', cliente => {
             console.log('CLiente conectado');
+
+            // Desconectar
+            socket.desconectar(cliente);
+
+            
         }); // on es para escuchar algun evento 
         
 
