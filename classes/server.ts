@@ -52,6 +52,9 @@ export  default class Server {
             // Desconectar
             socket.desconectar( cliente );
 
+            // configurar usuario
+            socket.configurarUsuario(cliente, this.io);
+
             
         }); // on es para escuchar algun evento 
         
