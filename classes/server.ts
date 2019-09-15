@@ -44,7 +44,14 @@ export  default class Server {
         console.log('Escuchando conecciones - sockets');
         // se necesita escuchar cuando un cliente se conecta o cuando una persona se conecta a mi aplicacion mediante sockets 
         this.io.on('connection', cliente => {
-            console.log('CLiente conectado');
+            // console.log('CLiente conectado');
+            // console.log(cliente.id);
+
+            // Conectar cliente
+            socket.conectarCliente( cliente );
+            
+            // configurar usuario
+            socket.configurarUsuario(cliente, this.io);
 
             // Mensajes
             socket.mensaje( cliente, this.io );
@@ -52,8 +59,6 @@ export  default class Server {
             // Desconectar
             socket.desconectar( cliente );
 
-            // configurar usuario
-            socket.configurarUsuario(cliente, this.io);
 
             
         }); // on es para escuchar algun evento 
