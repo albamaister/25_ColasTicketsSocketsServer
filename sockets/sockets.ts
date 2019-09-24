@@ -2,6 +2,51 @@ import { Socket } from 'socket.io';
 import socketIO from 'socket.io';
 import { UsuariosLista } from '../classes/usuarios-lista';
 import { Usuario } from '../classes/usuario';
+import { mapa } from '../routes/router';
+import { TicketArrayRepository } from '../repositories/ticketArrayRepository';
+
+
+/**
+ * 
+ * @param client 
+ * @param io 
+ */
+export const colas = (client: Socket, io: socketIO.Server) => {
+    const ticketRepository = TicketArrayRepository.instance;
+    io.to(client.id).emit('last-ticket', ticketRepository.last());
+  };
+
+
+// Mapas
+export const marcadorNuevo = ( cliente: Socket ) => {
+cliente.on('marcador-nuevo', (marcador) => {
+
+   mapa.agregarMarcador(marcador);
+
+    cliente.broadcast.emit('marcador-nuevo', marcador); // Bradcast emite a todos menos a el mismo
+})
+}
+
+export const marcadorBorrar = ( cliente: Socket ) => {
+    cliente.on('marcador-borrar', (id: string) => {
+    
+       mapa.borrarMarcador(id);
+    
+        cliente.broadcast.emit('marcador-borrar', id); // Bradcast emite a todos menos a el mismo
+    })
+    }
+
+    export const marcadorMover = ( cliente: Socket ) => {
+        cliente.on('marcador-mover', (marcador) => {
+        
+           mapa.moverMarcador(marcador);
+        
+            cliente.broadcast.emit('marcador-mover', marcador); // Bradcast emite a todos menos a el mismo
+        })
+        }
+
+
+
 
 export const usuariosConectados = new UsuariosLista();
 
